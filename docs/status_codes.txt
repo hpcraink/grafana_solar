@@ -1,0 +1,38 @@
+# From https://community.openhab.org/t/reading-data-from-huawei-inverter-sun-2000-3ktl-10ktl-via-modbus-rtu/87670
+Status Codes:
+0=Initializing
+1=Detecting ISO
+2=Detecting irradiation
+3=Grid detecting
+16 = MPP????
+
+256=Starting
+512=On grid
+513=On grid Power limit
+514=On grid self derating
+768=Shutdown fault
+769=Shutdown command
+770=Shutdown OVGR
+771=Shutdown communication disconnected
+772=Shutdown power limit
+773=Shutdown start manually
+774=Shutdown DC switch OFF
+1025=Grid dispatch cos(Phi)-P curve
+1026=Grid dispatch Q-U curve
+40960=No irradiation
+1280=Spot-check
+1281=Spot-checking
+1536=Inspecting
+1792=AFCI self-check
+2048=I V scanning
+2304=DC input detection 
+
+
+
+ 12.08.2020 05:58 - 12.08.2020 05:58 Initializing
+ 12.08.2020 05:58 - 12.08.2020 06:06 Detecting irradiation
+ 12.08.2020 06:07 - 12.08.2020 06:07 Detecting ISO
+ 12.08.2020 06:07 - 12.08.2020 06:07 Detecting irradiation
+ 12.08.2020 06:08 - 12.08.2020 20:48 MPP
+ 12.08.2020 20:48 - 12.08.2020 20:59 Detecting irradiation
+ 12.08.2020 20:59 - 13.08.2020 06:13 No irradiation
