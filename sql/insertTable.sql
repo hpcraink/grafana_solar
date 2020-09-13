@@ -1,3 +1,5 @@
+USE solardb;
+
 set @germanyID = (select id from country where namede = 'Deutschland');
 
 INSERT INTO address (id, poboxNr, streetAndNr, postcode, town, countryID) VALUES
