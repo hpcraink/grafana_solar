@@ -24,11 +24,17 @@ DROP TABLE IF EXISTS country;
 DROP TABLE IF EXISTS inverter;
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS sample;
-DROP TABLE IF EXISTS samplePerInverter;
 DROP TABLE IF EXISTS site;
 -- Next the relation tables:
 DROP TABLE IF EXISTS installation;
 DROP TABLE IF EXISTS roles;
+
+DROP VIEW IF EXISTS viewTotalEnergy;
+DROP VIEW IF EXISTS viewCurrentPower;
+DROP VIEW IF EXISTS viewMaxTemperature;
+DROP VIEW IF EXISTS viewDay;
+DROP VIEW IF EXISTS viewMonth;
+DROP VIEW IF EXISTS viewYear;
 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -79,22 +85,7 @@ CREATE TABLE person (
     version INT NOT NULL DEFAULT 1 COMMENT 'The version of this row, necessary for optimistic logging'
 )  COMMENT='entity Person';
 
-/*
 CREATE TABLE sample (
-    -- XXX: If our primary key is dateAndTime and siteID, then we don't need an ID...
-    -- Also, this is just aggregated data -- this could be delivered as a view
-    -- id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'The unique ID of the sample',
-    siteID INT NOT NULL COMMENT 'ID of the assigned site',
-    dateAndTime DATETIME NOT NULL COMMENT 'Date and time of the sample taken',
-    totalEnergy INT NOT NULL COMMENT 'The total amount of energy supplied thus far (over all inverters) today',
-    currentPower INT NOT NULL COMMENT 'The current energy over all strings (over all inverters)',
-    currentTemp INT NOT NULL COMMENT 'The current maximum temperature (over all inverters)',
-    PRIMARY KEY (siteID, dateAndTime)
-    -- version INT NOT NULL DEFAULT 1 COMMENT 'The version of this row, necessary for optimistic logging'
-) COMMENT='entity Sample';
-*/
-
-CREATE TABLE samplePerInverter (
     -- id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'The unique ID of the sampleInverter',
     -- sampleID INT NOT NULL PRIMARY KEY COMMENT 'ID of the corresponding sample',
     dateAndTime DATETIME NOT NULL COMMENT 'Date and time of the sample taken',
@@ -120,7 +111,7 @@ CREATE TABLE samplePerInverter (
     status INT NOT NULL COMMENT 'The current status',
     error INT NOT NULL COMMENT 'The current error'
     -- version INT NOT NULL DEFAULT 1 COMMENT 'The version of this row, necessary for optimistic logging'
-) COMMENT='entity SamplePerInverter';
+) COMMENT='entity Sample';
 
 CREATE TABLE site (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'The unique ID of the site',
@@ -164,28 +155,7 @@ ALTER TABLE person ADD CONSTRAINT person_addressID
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 
-/*
-ALTER TABLE sample ADD CONSTRAINT sample_siteID
-  FOREIGN KEY (siteID)
-  REFERENCES site(id)
-  ON DELETE RESTRICT
-  ON UPDATE RESTRICT;
-*/
-
--- ALTER TABLE sampleInverter ADD CONSTRAINT sampleInverter_sampleID
---   FOREIGN KEY (sampleID)
---   REFERENCES sample(id)
---   ON DELETE CASCADE
---   ON UPDATE RESTRICT;
-
--- ALTER TABLE samplePerInverter ADD CONSTRAINT sampleInverter_sample
---   FOREIGN KEY (sampleID)
---   REFERENCES sample(siteID, dateAndTime)
---   ON DELETE CASCADE
---   ON UPDATE RESTRICT;
-
-
-ALTER TABLE samplePerInverter ADD CONSTRAINT samplePerInverter_inverterID
+ALTER TABLE sample ADD CONSTRAINT sample_inverterID
   FOREIGN KEY (inverterID)
   REFERENCES inverter(id)
   ON DELETE CASCADE
@@ -200,9 +170,9 @@ ALTER TABLE site ADD CONSTRAINT site_addressID
 -- -----------------------------------------------------------------------;
 -- Creation of the SummaryViews
 -- -----------------------------------------------------------------------;  
-CREATE VIEW viewTotalEnergy AS SELECT dateAndTime, SUM(s.totalEnergy) AS WattHours FROM samplePerInverter s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
-CREATE VIEW viewCurrentPower AS SELECT dateAndTime, SUM(s.pac) AS Watt FROM samplePerInverter s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
-CREATE VIEW viewMaxTemperature AS SELECT dateAndTime, MAX(s.temp) AS Temperature FROM samplePerInverter s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
+CREATE VIEW viewTotalEnergy AS SELECT dateAndTime, SUM(s.totalEnergy) AS WattHours FROM sample s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
+CREATE VIEW viewCurrentPower AS SELECT dateAndTime, SUM(s.pac) AS Watt FROM sample s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
+CREATE VIEW viewMaxTemperature AS SELECT dateAndTime, MAX(s.temp) AS Temperature FROM sample s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
 
 CREATE VIEW viewDay AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, DAY(dateAndTime) AS Day,  MAX(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime), DAY(dateAndTime);
 CREATE VIEW viewMonth AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, SUM(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime);
