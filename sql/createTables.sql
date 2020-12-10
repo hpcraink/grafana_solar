@@ -12,6 +12,7 @@
 CREATE DATABASE IF NOT EXISTS solardb;
 CREATE USER IF NOT EXISTS 'solar'@'localhost' IDENTIFIED BY 'password' WITH MAX_QUERIES_PER_HOUR 200;
 GRANT SELECT ON solardb.* to 'solar'@'localhost';
+GRANT INSERT ON solardb.sample to 'solar'@'localhost';
 
 USE solardb;
 
