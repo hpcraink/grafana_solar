@@ -76,7 +76,7 @@ for i in `ls -1 $INPUT_DIR/min*.csv | sort -n`; do
     FILE_DATE="$YEAR$MONTH$DAY"
     # echo FILE_DATE:$FILE_DATE LAST_IMPORT:$LAST_IMPORT result:`test $FILE_DATE -lt $LAST_IMPORT`
     if test $FILE_DATE -lt $LAST_IMPORT ; then
-        echo FILE $i date $FILE_DATE is lower than last import:$LAST_IMPORT
+        # echo FILE $i date $FILE_DATE is lower than last import:$LAST_IMPORT
         continue
     fi
     SQL_FILE=$OUTPUT_DIR/`basename $i .csv`.sql
