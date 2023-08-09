@@ -1,0 +1,6 @@
+# Ignore the metadata file of the last import into SQL
+.lastimport
+# Ignore the raw data, the preprocessed data, and the processed (SQL) input.
+data/
+preprocessed/
+processed/

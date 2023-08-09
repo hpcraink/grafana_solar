@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This script preprocesses Solar-Logs bungled CSV file, inserting a missing ";"
 # into column 20/21...
 
@@ -24,9 +24,15 @@ for i in $RAW_DIR/min*.csv; do
         continue
     fi
 
-    echo Preprocessing $i $FILE $OUTPUT_DIR/$i
-    TMPFILE=`basename $i .csv`.tmp
-    iconv -f ISO-8859-2 -t UTF-8 $i > $TMPFILE
-    awk 'BEGIN { FS = OFS = ";" } {  sub( /[[:digit:]]/, "0;", $21) ; print }' $TMPFILE > $OUTPUT_DIR/$FILE
+    # Starting with 9.12.2020 the firmware corrects the log's format.
+    if test $FILE_DATE -ge 201209 ; then
+        echo Copy and convert $i into $OUTPUT_DIR/$FILE
+        iconv -f ISO-8859-2 -t UTF-8 $i > $OUTPUT_DIR/$FILE
+    else
+        echo Preprocessing $i into $OUTPUT_DIR/$FILE
+        TMPFILE=`basename $i .csv`.tmp
+        iconv -f ISO-8859-2 -t UTF-8 $i > $TMPFILE
+        awk 'BEGIN { FS = OFS = ";" } {  sub( /[[:digit:]]/, "0;", $21) ; print }' $TMPFILE > $OUTPUT_DIR/$FILE
+    fi
 done
 rm -f min*.tmp

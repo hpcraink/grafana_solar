@@ -12,13 +12,16 @@ Files are copied from FTP-Server into the RAW directory.
 To create the schema, run:
     mysql -h localhost -u root -P < sql/createTables.sql
 
-The Solar-Log Base 100 has an issue with the exported CSV datasets:
+# Caveat with older Solar-Log Base 100 CSV files
+The Solar-Log Base 100 had an issue with the exported CSV datasets:
 While all columns are properly separated by ";", the adjacent lines of
 two converters attached to the same Solar-Log are not.
 So instead of 40 lines, it's only 39 lines...
 
 Use the `preprocess.sh` script to prepare the data.
-Finally create the SQL INSERT statements using the `sql.sh` script.
+
+# Processing 
+Afterwards create the SQL INSERT statements using the `sql.sh` script.
 This script expects this data to be in sub-directory RAW.
 It converts file min200903.csv into min200903.sql
 

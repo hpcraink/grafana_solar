@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###########################################################################
 # Convert the SolarLog Base 100  CSV files into SQL files for the schema.
