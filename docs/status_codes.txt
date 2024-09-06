@@ -1,9 +1,11 @@
 # From https://community.openhab.org/t/reading-data-from-huawei-inverter-sun-2000-3ktl-10ktl-via-modbus-rtu/87670
 Status Codes:
-0=Initializing
-1=Detecting ISO
-2=Detecting irradiation
-3=Grid detecting
+0  = Initializing
+1  = Detecting ISO
+2  = Detecting irradiation
+3  = Grid detecting
+5  = OK???
+6  = ???
 16 = MPP????
 
 256=Starting

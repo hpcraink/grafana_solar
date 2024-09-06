@@ -149,6 +149,18 @@ ALTER TABLE address ADD CONSTRAINT address_countryID
   REFERENCES country(id)
   ON DELETE SET NULL
   ON UPDATE RESTRICT;
+  
+ALTER TABLE installation
+ ADD CONSTRAINT installation_siteID
+  FOREIGN KEY (siteID)
+  REFERENCES site(id)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT,
+ ADD CONSTRAINT installation_inverterID
+  FOREIGN KEY (inverterID)
+  REFERENCES inverter(id)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
 
 ALTER TABLE person ADD CONSTRAINT person_addressID
   FOREIGN KEY (addressID)
@@ -159,6 +171,12 @@ ALTER TABLE person ADD CONSTRAINT person_addressID
 ALTER TABLE sample ADD CONSTRAINT sample_inverterID
   FOREIGN KEY (inverterID)
   REFERENCES inverter(id)
+  ON DELETE CASCADE
+  ON UPDATE RESTRICT;
+
+ALTER TABLE roles ADD CONSTRAINT roles_personID
+  FOREIGN KEY (personID)
+  REFERENCES person(id)
   ON DELETE CASCADE
   ON UPDATE RESTRICT;
 

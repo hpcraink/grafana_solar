@@ -2,4 +2,3 @@
 USE solardb;
 
 DELETE FROM sample;
-DELETE FROM samplePerInverter;
