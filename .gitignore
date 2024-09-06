@@ -4,4 +4,6 @@
 data/
 preprocessed/
 preprocess/*.png
+preprocess/mail_daily_settings.py
+preprocess/mail_daily_settings_de.py
 processed/
