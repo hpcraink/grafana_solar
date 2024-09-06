@@ -3,4 +3,5 @@
 # Ignore the raw data, the preprocessed data, and the processed (SQL) input.
 data/
 preprocessed/
+preprocess/*.png
 processed/

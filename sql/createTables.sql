@@ -175,9 +175,10 @@ CREATE VIEW viewTotalEnergy AS SELECT dateAndTime, SUM(s.totalEnergy) AS WattHou
 CREATE VIEW viewCurrentPower AS SELECT dateAndTime, SUM(s.pac) AS Watt FROM sample s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
 CREATE VIEW viewMaxTemperature AS SELECT dateAndTime, MAX(s.temp) AS Temperature FROM sample s WHERE s.inverterID IN (SELECT inverterID FROM installation WHERE siteID=1) GROUP BY dateAndTime;
 
-CREATE VIEW viewDay AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, DAY(dateAndTime) AS Day,  MAX(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime), DAY(dateAndTime);
-CREATE VIEW viewMonth AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, SUM(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime);
-CREATE VIEW viewYear AS SELECT YEAR(dateAndTime) AS Year, SUM(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime);
+CREATE VIEW viewHourly AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, DAY(dateAndTime) AS Day, HOUR(dateAndTime) AS Hour, MAX(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime), DAY(dateAndTime), HOUR(dateAndTime);
+CREATE VIEW viewDaily AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, DAY(dateAndTime) AS Day,  MAX(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime), DAY(dateAndTime);
+CREATE VIEW viewMonthly AS SELECT YEAR(dateAndTime) AS Year, MONTH(dateAndTime) AS Month, SUM(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime), MONTH(dateAndTime);
+CREATE VIEW viewYearly AS SELECT YEAR(dateAndTime) AS Year, SUM(WattHours) AS WattHours FROM viewTotalEnergy GROUP BY YEAR(dateAndTime);
 
 
 -- -----------------------------------------------------------------------;
