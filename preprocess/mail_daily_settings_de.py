@@ -11,9 +11,10 @@ mail_html_body="""\
   <body>
      <div style="font-family:Verdana;font-size:12px;">
        <div>Hallo,</div>
-       <div>anbei die Daten vom {tag}: Es wurden heute <b>{kWh_today:.2f} kWh Strom</b> produziert, d.h. {percentMax_kWh:.1f}% vom höchsten, je erreichten Wert ({kWh_max_ever:.2f} kWh am {best_day}).</div>
+       <div>anbei die Daten vom {date_day}.{date_month}.{date_year} (um {date_hour}:{date_minute}): Es wurden heute <b>{kWh_today:.2f} kWh Strom</b> produziert, d.h. {percentMax_kWh:.1f}% vom höchsten, je erreichten Wert ({kWh_max_ever:.2f} kWh am {best_day}).</div>
        <div>Die maximale Leistung war {max_kW_today:.2f} kW, d.h {percentPeak_kW:.1f}% vom Peak ({peak_kW:.2f} kW), und {percentMaxEver_kW:.1f}% vom höchsten, je erreichten Wert ({kW_max_ever:.2f} kW).</div>
        <div style="color:red">{error}</div>
+       <div>Mehr Information auf <a href="http://rainerkeller.link:3000">Grafana-Solar</a></div>
        <div>Lieber Gruss,</div>
        <div>Python</div>
      </div>

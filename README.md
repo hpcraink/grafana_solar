@@ -32,13 +32,7 @@ All of these files may be concatenated into one SQL file:
 
 # Email notification
 
+    cd preprocess
     python3 -m venv mail_daily
-    cd mail_daily
-    . bin/activate
-
-    python3 -m pip install mysql.connector
-    python3 -m pip install mysql-connector-python
-    python3 -m pip install numpy
-    python3 -m pip install pandas
-    python3 -m pip install matplotlib
-
+    python3 -m pip install -r requirements.txt
+    . mail_daily/bin/activate
